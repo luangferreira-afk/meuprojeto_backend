@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "name": "meuprojeto_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  
+  "scripts": {
+    "dev": "tsx watch src/app.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luangferreira-afk/meuprojeto_backend.git"
+  },
+  "keywords": [],
+  "author": "", 
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/luangferreira-afk/meuprojeto_backend/issues"
+  },
+  "homepage": "https://github.com/luangferreira-afk/meuprojeto_backend#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.2.0",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
+  }
+}
