@@ -34,4 +34,12 @@ return`${this.name} recebeu ${amout} de dano e agora tem ${this.health} de saúd
                 }
 
 
+public levelup (): string{
+    this.level += 1;
+    return `${this.name} subiu para o nível ${this.level}!`;
+}
+
+public heal (amount: number): number {
+    this.health += amount;
+    return this.health;}
 }

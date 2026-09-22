@@ -14,6 +14,8 @@ const app: Express = express();
 // Middleware para permitir que o servidor entenda requisições com corpo em JSON
 app.use(express.json());
 
+
+
 // Define a porta onde o servidor ficará disponível
 // Neste caso, o servidor poderá ser acessado pela porta 8081
 const PORT: number = 8081;
@@ -107,6 +109,23 @@ app.post("/player/takedamage", (req: Request, res: Response) => {
     });
 });
 
+app.post("/player/levelup", (req: Request, res: Response) => {
+    const levelupMessage = player1.levelup();
+    res.json({  
+        action: levelupMessage,
+        currentlevel: player1.level
+    });
+});
+
+app.post("/player/heal", (req: Request, res: Response) => {
+    const { amount } = req.body;   
+    const newHealth = player1.heal(amount);
+    res.json({ 
+        action: `${player1.name} foi curado em ${amount} pontos de vida.`,
+        currenthealth: newHealth
+    });
+});
+
 // Inicializa o servidor utilizando a porta definida
 // O método listen() faz o servidor começar a "escutar" requisições HTTP
 app.listen(PORT, () => {
@@ -116,4 +135,6 @@ app.listen(PORT, () => {
     console.log(`POST http://localhost:${PORT}/player/attack - Atacar com o jogador`);
     console.log(`POST http://localhost:${PORT}/player/damage - Receber dano no jogador`);
     console.log(`POST http://localhost:${PORT}/player/takedamage - Receber dano no jogador e obter informações atualizadas`);
+    console.log(`POST http://localhost:${PORT}/player/levelup - Subir de nível o jogador`);
+    console.log(`POST http://localhost:${PORT}/player/heal - Curar o jogador`);
 });
