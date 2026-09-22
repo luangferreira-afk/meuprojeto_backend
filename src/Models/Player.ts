@@ -1,7 +1,7 @@
 // A palavra "class" define que estamos criando uma classe/molde 
 //A palavra "export" permite que esse arquivo seja usado por outros arquivos (como o app.ts)
 
-export class player {
+export class Player {
     public name:string;
     public health:number;
     public level: number;

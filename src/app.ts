@@ -3,8 +3,8 @@
 import express from "express";
 import type { Express , Request , Response } from "express";
 
-import { player } from "./Models/Player.js";
-import { get } from "node:http";
+import fs from "fs";   //importa a biblioteca fs (file system) para manipulação de arquivos
+import { Player } from "./Models/Player.js";
 
 
 // Cria uma aplicação Express
@@ -18,12 +18,54 @@ app.use(express.json());
 // Neste caso, o servidor poderá ser acessado pela porta 8081
 const PORT: number = 8081;
 
+//Define o noeme do arquivo onde os arquivos  serão salvos
+const DATA_FILE = "./data/players.json";
+
+//Função para garantir que o diretório de dados exista antes de salvar os dados
+//se o diretório não existir, ele será criado
+
+function ensureDataDirectoryExists() {
+    const datafolder = "./data";
+    if (!fs.existsSync(datafolder)) {
+        fs.mkdirSync(datafolder);
+    }
+} 
+
+// Chamada da função para garantir que o diretório de dados exista
+// antes de qualquer operação de leitura ou escrita no arquivo
+ensureDataDirectoryExists();
+
+// Função para salvar os dados do jogador em um arquivo JSON
+function savePlayerData(player: Player) {
+    const playerdata = JSON.stringify(player, null, 2); 
+    // Converte o objeto player em uma string JSON formatada
+    fs.writeFileSync(DATA_FILE, playerdata); 
+    // Salva a string JSON no arquivo especificado
+}
+
+//função para carregar os dados do jogador a partir de um arquivo JSON
+function loadPlayerData(): Player {
+    if (fs.existsSync(DATA_FILE)) {
+        const data = fs.readFileSync(DATA_FILE, "utf8");
+        return JSON.parse(data);
+    }
+    //cria um novo jogador padrão se o arquivo não existir
+    const newPlayer = new Player("Default", 100, 1); // Cria um novo jogador padrão
+    return newPlayer;
+}
+//inicializa o jogador carregando os dados do arquivo JSON
+let player: Player = loadPlayerData();
+
+
+
+
+// Atenção: A função loadPlayerData() retorna um objeto "puro" (sem métodos da classe player), então se você quiser usar os métodos da classe player, você precisará criar uma nova instância da classe player com os dados carregados.
 
 //Instanciaação de um jogador utilizando a classe player
 // Criamos (instanciamos) um novo jogador chamado "Hero" com 100 de Saúde e nivel 1
 // a partir da classe Player em que foi importada do arquivo Player.ts 
 
-let player1: player = new player ("Hero", 100, 5)
+let player1: Player = new Player ("Hero", 100, 5)
 
 // Rota Get para obeter informações de um jogador
 // Quando o usuário acessar a rota "/player", o servidor responderá com os dados do jogador 
@@ -48,6 +90,8 @@ app.post("/player/attack", (req: Request, res: Response) => {
 app.post("/player/damage", (req: Request, res: Response) => {
     const { damage } = req.body; // Obtém a quantidade de dano do corpo da requisição
     const damageMessage = player1.takedamage(damage);
+    //salva os dados do jogador no arquivo JSON após receber dano
+    savePlayerData(player1);
     res.json({
         message: damageMessage
     });
