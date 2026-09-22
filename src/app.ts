@@ -79,7 +79,7 @@ res.json({
     player:player1
 });
 });
-
+// linha 60-66 , é uma rota Get que permite obter informações do jogador.
 
 app.post("/player/attack", (req: Request, res: Response) => {
     const attackMessage = player1.attack();
@@ -88,6 +88,8 @@ app.post("/player/attack", (req: Request, res: Response) => {
 
     });
 });
+// linha 70-78 , é uma rota Post que permite que o jogador ataque, chamando o método attack() do jogador. 
+// A resposta JSON inclui uma mensagem de ação.
 
 app.post("/player/damage", (req: Request, res: Response) => {
     const { damage } = req.body; // Obtém a quantidade de dano do corpo da requisição
@@ -98,6 +100,7 @@ app.post("/player/damage", (req: Request, res: Response) => {
         message: damageMessage
     });
 });
+// linha 80-88 , é uma rota Post que permite que o jogador receba dano, recebendo a quantidade de dano no corpo da requisição.
 
 app.post("/player/takedamage", (req: Request, res: Response) => {
     const { damage } = req.body;
@@ -108,23 +111,31 @@ app.post("/player/takedamage", (req: Request, res: Response) => {
         currentlevel: player1.level
     });
 });
+// linha 90-98 , é uma rota Post que permite que o jogador receba dano, recebendo a quantidade de dano no corpo da requisição.
 
 app.post("/player/levelup", (req: Request, res: Response) => {
-    const levelupMessage = player1.levelup();
+    const levelupMessage = player1.levelup(); // Chama o método levelup() do jogador para subir de nível
     res.json({  
         action: levelupMessage,
         currentlevel: player1.level
     });
+    // salva os dados do jogador no arquivo JSON após subir de nível
 });
+// linha 100-109 , é uma rota Post que permite subir de nível o jogador, 
+// chamando o método levelup() do jogador. A resposta JSON inclui uma mensagem de ação e o nível atual do jogador.
 
 app.post("/player/heal", (req: Request, res: Response) => {
-    const { amount } = req.body;   
+    const { amount } = req.body;   // Obtém a quantidade de cura do corpo da requisição
     const newHealth = player1.heal(amount);
     res.json({ 
         action: `${player1.name} foi curado em ${amount} pontos de vida.`,
         currenthealth: newHealth
     });
+    // salva os dados do jogador no arquivo JSON após a cura
 });
+// linha 112-119 , é uma rota Post que permite curar o jogador, recebendo a quantidade de pontos de vida a serem restaurados no corpo da requisição. 
+// O método heal() é chamado para atualizar a saúde do jogador, e a resposta JSON inclui uma mensagem de ação e a saúde atualizada do jogador.
+
 
 // Inicializa o servidor utilizando a porta definida
 // O método listen() faz o servidor começar a "escutar" requisições HTTP

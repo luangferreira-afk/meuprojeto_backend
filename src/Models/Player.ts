@@ -22,7 +22,7 @@ export class Player {
 public attack (): string{
     const damage = this.level * 10;
     return`${this.name} atacou e causou ${damage} de dano!`;
-}
+} //
 
     public takedamage (amout: number): string{
         this.health -= amout;
@@ -32,14 +32,18 @@ public attack (): string{
         return `${this.name} Foi Derrotado!`
 return`${this.name} recebeu ${amout} de dano e agora tem ${this.health} de saúde.`;
                 }
+                // o jogador recebe dano com base na quantidade fornecida e a saúde atualizada é retornada, 
+                // e o 0 é o valor minimo de vida que o jogador pode ter, não podendo ficar negativo.
 
 
 public levelup (): string{
     this.level += 1;
     return `${this.name} subiu para o nível ${this.level}!`;
+    // o jogador sobe de nivel e o nivel é incrementado em 1
 }
 
 public heal (amount: number): number {
     this.health += amount;
     return this.health;}
+    // o jogador é curado com base na quantidade de pontos de vida fornecida e a saúde atualizada é retornada
 }
